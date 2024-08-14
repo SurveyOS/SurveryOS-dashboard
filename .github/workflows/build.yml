@@ -6,6 +6,7 @@ on:
 
 jobs:
   quality:
+    name:  Run Quality check ✨
     runs-on: ubuntu-latest
 
     steps:
@@ -21,6 +22,7 @@ jobs:
         run: biome ci src/
 
   build:
+    name: Build 🚀
     runs-on: ubuntu-latest
 
     strategy:
