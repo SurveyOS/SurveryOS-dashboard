@@ -14,13 +14,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import GoogleSignInButton from "@/components/core/google-signin-button";
 import { SignInFormSchema } from "@/validations/auth";
 import { useSignIn } from "@/api/auth/use-signin";
+import { useToast } from "@/hooks";
+import useAuth from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const SignInForm = () => {
   const { mutate: signIn } = useSignIn();
-
+  const { isAuthenticated, onLogin } = useAuth();
+  const { toast } = useToast();
+  const router = useRouter();
   const form = useForm<z.infer<typeof SignInFormSchema>>({
     resolver: zodResolver(SignInFormSchema),
     defaultValues: {
@@ -36,17 +41,35 @@ const SignInForm = () => {
         password: values.password,
       },
       {
-        onSuccess: () => {
-          console.log("Success");
+        onSuccess: (res) => {
+          if (res.response) {
+            onLogin(res.response);
+          } else {
+            toast({
+              variant: "destructive",
+              title: "Error",
+              description: "Something went wrong",
+            });
+          }
         },
         onError: (error) => {
-          console.log("Error", error);
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: error.response?.data.message || "Something went wrong",
+          });
         },
       }
     );
   };
 
-  return (
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/");
+    }
+  }, [isAuthenticated]);
+
+  return !isAuthenticated ? (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
         <div className="space-y-2">
@@ -85,10 +108,6 @@ const SignInForm = () => {
           Sign in
         </Button>
       </form>
-      <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
-        or
-      </div>
-      <GoogleSignInButton>Sign in with Google</GoogleSignInButton>
       <p className="text-center text-xs text-gray-600 mt-2">
         If you don&apos;t have an account, please&nbsp;
         <Link className="text-indigo-500 hover:underline" href="/sign-up">
@@ -96,7 +115,7 @@ const SignInForm = () => {
         </Link>
       </p>
     </Form>
-  );
+  ) : null;
 };
 
 export default SignInForm;

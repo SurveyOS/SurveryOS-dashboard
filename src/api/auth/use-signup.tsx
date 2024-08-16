@@ -1,13 +1,13 @@
-import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
 
 import { client } from '../common';
 import { SignUpRequest, SignUpResponse } from './types';
+import { ServerErrorType } from '../types';
 
 type Response = SignUpResponse;
 type Variables = SignUpRequest
 
-export const useSignUp = createMutation<Response, Variables, AxiosError>(
+export const useSignUp = createMutation<Response, Variables, ServerErrorType>(
   {
     mutationFn: async (variables) => {
       return client()({

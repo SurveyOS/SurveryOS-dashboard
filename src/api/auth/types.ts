@@ -5,10 +5,7 @@ export interface SignInRequest {
   password: string;
 }
 
-interface SignIn {
-  token: string;
-}
-export interface SignInResponse extends ServerResponseType<SignIn | null> {}
+export interface SignInResponse extends ServerResponseType<string | null> {}
 
 export interface SignUpRequest {
   name: string;
