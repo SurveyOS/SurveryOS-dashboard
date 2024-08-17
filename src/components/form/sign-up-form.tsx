@@ -1,25 +1,18 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import Link from "next/link";
-import { SignUpFormSchema } from "@/validations/auth";
 import { useSignUp } from "@/api/auth";
-import useAuth from "@/hooks/useAuth";
 import { useToast } from "@/hooks";
+import useAuth from "@/hooks/useAuth";
+import { SignUpFormSchema } from "@/validations/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import type * as z from "zod";
+import { Button } from "../ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { Input } from "../ui/input";
 
 const SignUpForm = () => {
   const { mutate: signUp } = useSignUp();
@@ -52,7 +45,7 @@ const SignUpForm = () => {
             description: error.response?.data.message || "Something went wrong",
           });
         },
-      }
+      },
     );
   };
 
@@ -60,7 +53,7 @@ const SignUpForm = () => {
     if (isAuthenticated) {
       router.push("/");
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, router]);
 
   return !isAuthenticated ? (
     <Form {...form}>
@@ -100,11 +93,7 @@ const SignUpForm = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Enter your password"
-                    {...field}
-                  />
+                  <Input type="password" placeholder="Enter your password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -117,11 +106,7 @@ const SignUpForm = () => {
               <FormItem>
                 <FormLabel>Re-Enter your password</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Re-Enter your password"
-                    type="password"
-                    {...field}
-                  />
+                  <Input placeholder="Re-Enter your password" type="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -133,17 +118,11 @@ const SignUpForm = () => {
         </Button>
         <p className="mt-6 text-xs text-gray-600 text-center">
           By signing up, you agree to our
-          <Link
-            href="#"
-            className="border-b border-gray-500 border-dotted mx-1"
-          >
+          <Link href="#" className="border-b border-gray-500 border-dotted mx-1">
             Terms of Service
           </Link>
           and its
-          <Link
-            href="#"
-            className="border-b border-gray-500 border-dotted mx-1"
-          >
+          <Link href="#" className="border-b border-gray-500 border-dotted mx-1">
             Privacy Policy
           </Link>
         </p>

@@ -3,7 +3,7 @@ import z from "zod";
 const envValidation = z
   .object({
     CORE_NETWORK_URL: z.string().default("http://localhost:8080"),
-    REACT_QUERY_DEFAULT_MAX_AGE: z.string().default(Infinity.toString()),
+    REACT_QUERY_DEFAULT_MAX_AGE: z.string().default(Number.POSITIVE_INFINITY.toString()),
     REACT_QUERY_DEFAULT_CACHE_TIME: z.string().default((1000 * 60 * 60 * 24 * 7).toString()),
     REACT_QUERY_DEFAULT_STALE_TIME: z.string().default((1000 * 20).toString()),
     REACT_QUERY_CACHE_BUSTER: z.string().default("1"),

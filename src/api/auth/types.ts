@@ -1,4 +1,4 @@
-import { ServerResponseType } from "@/api";
+import type { ServerResponseType } from "@/api";
 
 export interface SignInRequest {
   email: string;

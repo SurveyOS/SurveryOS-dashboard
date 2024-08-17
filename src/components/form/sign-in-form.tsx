@@ -1,25 +1,18 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import Link from "next/link";
-import { SignInFormSchema } from "@/validations/auth";
 import { useSignIn } from "@/api/auth/use-signin";
 import { useToast } from "@/hooks";
 import useAuth from "@/hooks/useAuth";
+import { SignInFormSchema } from "@/validations/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import type * as z from "zod";
+import { Button } from "../ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { Input } from "../ui/input";
 
 const SignInForm = () => {
   const { mutate: signIn } = useSignIn();
@@ -59,7 +52,7 @@ const SignInForm = () => {
             description: error.response?.data.message || "Something went wrong",
           });
         },
-      }
+      },
     );
   };
 
@@ -67,7 +60,7 @@ const SignInForm = () => {
     if (isAuthenticated) {
       router.push("/");
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, router]);
 
   return !isAuthenticated ? (
     <Form {...form}>
@@ -93,11 +86,7 @@ const SignInForm = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Enter your password"
-                    {...field}
-                  />
+                  <Input type="password" placeholder="Enter your password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

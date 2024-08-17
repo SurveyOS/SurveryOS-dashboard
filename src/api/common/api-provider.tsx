@@ -1,10 +1,7 @@
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
-import {
-  type PersistQueryClientOptions,
-  PersistQueryClientProvider,
-} from "@tanstack/react-query-persist-client";
-import * as React from "react";
+import { type PersistQueryClientOptions, PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import type * as React from "react";
 
 import { config } from "@/config/config";
 
@@ -38,10 +35,7 @@ export const persistQueryClientOptions: PersistQueryClientOptions = {
 
 export function APIProvider({ children }: { children: React.ReactNode }) {
   return (
-    <PersistQueryClientProvider
-      client={queryClient}
-      persistOptions={persistQueryClientOptions}
-    >
+    <PersistQueryClientProvider client={queryClient} persistOptions={persistQueryClientOptions}>
       {children}
     </PersistQueryClientProvider>
   );

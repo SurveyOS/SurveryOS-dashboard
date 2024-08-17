@@ -1,7 +1,7 @@
-import { useJwt } from "react-jwt";
-import { useToast } from "./useToast";
 import { useRouter } from "next/navigation";
+import { useJwt } from "react-jwt";
 import useLocalStorage from "./useLocalStorage";
+import { useToast } from "./useToast";
 
 const useAuth = () => {
   const { setValue, storedValue } = useLocalStorage<string>("at", "");
@@ -23,7 +23,7 @@ const useAuth = () => {
       });
       router.push("/");
     } catch (error: any) {
-      throw error;
+      console.error(error);
     }
   };
   const onSignup = async () => {
@@ -35,7 +35,7 @@ const useAuth = () => {
         description: "You can now login with your new account.",
       });
     } catch (error: any) {
-      throw error;
+      console.error(error);
     }
   };
   const onLogut = () => {

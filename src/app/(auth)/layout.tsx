@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FC, ReactNode, useEffect } from "react";
+import { type FC, type ReactNode, useEffect } from "react";
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -11,13 +11,7 @@ const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
       <div className="max-w-screen-2xl m-0 bg-white shadow sm:rounded-lg flex justify-center flex-1">
         <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12 overflow-y-auto no-scrollbar">
           <div>
-            <Image
-              src={""}
-              alt="Logo"
-              className="w-mx-auto"
-              width={120}
-              height={120}
-            />
+            <Image src={""} alt="Logo" className="w-mx-auto" width={120} height={120} />
           </div>
           {children}
         </div>

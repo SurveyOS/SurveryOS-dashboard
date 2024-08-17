@@ -8,7 +8,7 @@ function useLocalStorage<T>(key: string, initialValue: T) {
       if (typeof window === "undefined") {
         return initialValue;
       }
-      
+
       const item = window.localStorage.getItem(key);
 
       let isObject = false;
@@ -32,8 +32,7 @@ function useLocalStorage<T>(key: string, initialValue: T) {
 
   const setValue = (value: T | ((val: T) => T)) => {
     try {
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
+      const valueToStore = value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);
       localStorage.setItem(key, JSON.stringify(valueToStore));
     } catch (error) {
