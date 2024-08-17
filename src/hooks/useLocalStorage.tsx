@@ -1,9 +1,15 @@
+"use client";
+
 import { useState } from "react";
 
 function useLocalStorage<T>(key: string, initialValue: T) {
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {
-      const item = localStorage.getItem(key);
+      if (typeof window === "undefined") {
+        return initialValue;
+      }
+      
+      const item = window.localStorage.getItem(key);
 
       let isObject = false;
       if (item) {

@@ -11,8 +11,8 @@ import { config } from "@/config/config";
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: config.REACT_QUERY_DEFAULT_STALE_TIME,
-      gcTime: config.REACT_QUERY_DEFAULT_CACHE_TIME,
+      staleTime: Number(config.REACT_QUERY_DEFAULT_STALE_TIME),
+      gcTime: Number(config.REACT_QUERY_DEFAULT_CACHE_TIME),
     },
   },
   queryCache: new QueryCache(),
@@ -20,13 +20,13 @@ export const queryClient = new QueryClient({
 });
 
 const asyncStoragePersister = createAsyncStoragePersister({
-  storage: window.localStorage,
+  storage: typeof window !== "undefined" ? window.localStorage : undefined,
 });
 
 export const persistQueryClientOptions: PersistQueryClientOptions = {
   queryClient: queryClient,
   persister: asyncStoragePersister,
-  maxAge: config.REACT_QUERY_DEFAULT_MAX_AGE,
+  maxAge: Number(config.REACT_QUERY_DEFAULT_MAX_AGE),
   buster: config.REACT_QUERY_CACHE_BUSTER,
   dehydrateOptions: {
     shouldDehydrateQuery: (query) => {

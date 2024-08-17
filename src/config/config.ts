@@ -3,9 +3,9 @@ import z from "zod";
 const envValidation = z
   .object({
     CORE_NETWORK_URL: z.string().default("http://localhost:8080"),
-    REACT_QUERY_DEFAULT_MAX_AGE: z.number().default(Infinity),
-    REACT_QUERY_DEFAULT_CACHE_TIME: z.number().default(1000 * 60 * 60 * 24 * 7),
-    REACT_QUERY_DEFAULT_STALE_TIME: z.number().default(1000 * 20),
+    REACT_QUERY_DEFAULT_MAX_AGE: z.string().default(Infinity.toString()),
+    REACT_QUERY_DEFAULT_CACHE_TIME: z.string().default((1000 * 60 * 60 * 24 * 7).toString()),
+    REACT_QUERY_DEFAULT_STALE_TIME: z.string().default((1000 * 20).toString()),
     REACT_QUERY_CACHE_BUSTER: z.string().default("1"),
   })
   .safeParse(process.env);
@@ -13,7 +13,7 @@ const envValidation = z
 const { error, data: env } = envValidation;
 
 if (error) {
-  throw new Error(`Config validation error: ${error.errors}`);
+  throw new Error(`Config validation error: ${JSON.stringify(error.errors)}`);
 }
 
 export const config = {
