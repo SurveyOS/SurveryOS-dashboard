@@ -1,3 +1,10 @@
+import Header from "@/components/ui/header";
+
 export default function Home() {
-  return <h1 className="text-4xl">Home</h1>;
+  return (
+    <h1 className="text-4xl">
+      <Header />
+      Home
+    </h1>
+  );
 }

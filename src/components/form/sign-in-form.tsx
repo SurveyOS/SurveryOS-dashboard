@@ -2,7 +2,7 @@
 
 import { useSignIn } from "@/api/auth/use-signin";
 import { useToast } from "@/hooks";
-import useAuth from "@/hooks/useAuth";
+import useAuth from "@/hooks/use-auth";
 import { SignInFormSchema } from "@/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";

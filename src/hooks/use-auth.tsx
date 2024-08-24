@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
 import { useJwt } from "react-jwt";
-import useLocalStorage from "./useLocalStorage";
-import { useToast } from "./useToast";
+import useLocalStorage from "./use-local-storage";
+import { useToast } from "./use-toast";
 
 const useAuth = () => {
   const { setValue, storedValue } = useLocalStorage<string>("at", "");
@@ -11,7 +11,7 @@ const useAuth = () => {
 
   const { decodedToken } = useJwt(storedValue);
 
-  const isAuthenticated = !!storedValue;
+  let isAuthenticated = !!storedValue;
   const at = storedValue;
 
   const onLogin = async (token: string) => {
@@ -21,11 +21,13 @@ const useAuth = () => {
         variant: "default",
         title: "Welcome back!",
       });
+      isAuthenticated = true;
       router.push("/");
     } catch (error: any) {
       console.error(error);
     }
   };
+  
   const onSignup = async () => {
     try {
       router.push("/sign-in");
@@ -40,6 +42,7 @@ const useAuth = () => {
   };
   const onLogut = () => {
     localStorage.removeItem("at");
+    isAuthenticated = false;
     router.push("/sign-in");
   };
 
