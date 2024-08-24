@@ -1,11 +1,9 @@
-import React from 'react'
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 const page = (props: Props) => {
-  return (
-    <div>survey connect</div>
-  )
-}
+  return <div>survey connect</div>;
+};
 
-export default page
+export default page;

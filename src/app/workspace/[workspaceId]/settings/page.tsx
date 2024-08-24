@@ -1,11 +1,9 @@
-import React from 'react'
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 const page = (props: Props) => {
-  return (
-    <div>This will show user profile and options to change password and enable 2fa</div>
-  )
-}
+  return <div>This will show user profile and options to change password and enable 2fa</div>;
+};
 
-export default page
+export default page;
