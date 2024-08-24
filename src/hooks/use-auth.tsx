@@ -27,7 +27,7 @@ const useAuth = () => {
       console.error(error);
     }
   };
-  
+
   const onSignup = async () => {
     try {
       router.push("/sign-in");
