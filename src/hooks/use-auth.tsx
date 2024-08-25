@@ -7,7 +7,8 @@ import { useToast } from "./use-toast";
 
 const useAuth = () => {
   const { setValue, storedValue } = useLocalStorage<string>("at", "");
-  const { setValue: setRedirectValue } = useLocalStorage<string>("redirectUrl", "");
+  const { setValue: setCompanyIdValue } = useLocalStorage<string>("company_id", "");
+  const { setValue: setWorkspaceIdValue } = useLocalStorage<string>("workspace_id", "");
   const { toast } = useToast();
 
   const router = useRouter();
@@ -18,7 +19,6 @@ const useAuth = () => {
   const at = storedValue;
 
   const onLogin = async (object: ServerResponseType<SignIn | null>) => {
-    console.log("use auth", object);
     if (!object.response) return;
     try {
       setValue(object.response?.token);
@@ -26,9 +26,16 @@ const useAuth = () => {
         variant: "default",
         title: "Welcome back!",
       });
+
+      const companyId = object.response?.redirectUrl.split("/")[2];
+      const workspaceId = object.response?.redirectUrl.split("/")[4];
+
+      setCompanyIdValue(companyId);
+      setWorkspaceIdValue(workspaceId);
+
       isAuthenticated = true;
+
       router.push(object.response?.redirectUrl);
-      setRedirectValue(object.response?.redirectUrl);
     } catch (error: any) {
       console.error(error);
     }
@@ -46,10 +53,22 @@ const useAuth = () => {
       console.error(error);
     }
   };
+
   const onLogut = () => {
     localStorage.removeItem("at");
+    localStorage.removeItem("company_id");
+    localStorage.removeItem("workspace_id");
+
     isAuthenticated = false;
     router.push("/sign-in");
+  };
+
+  const onRefreshToken = async (token: string) => {
+    try {
+      setValue(token);
+    } catch (error: any) {
+      console.error(error);
+    }
   };
 
   return {
@@ -57,6 +76,7 @@ const useAuth = () => {
     onLogin,
     onSignup,
     onLogut,
+    onRefreshToken,
     at,
     decodedToken,
   };

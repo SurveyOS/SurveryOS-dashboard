@@ -15,7 +15,7 @@ const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
           </div>
           {children}
         </div>
-        <div className="flex-1 text-center hidden lg:flex bg-indigo-700">
+        <div className="flex-1 text-center hidden lg:flex bg-muted">
           <Image
             src={""}
             alt="Background"
