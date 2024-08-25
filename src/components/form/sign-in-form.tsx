@@ -3,6 +3,7 @@
 import { useSignIn } from "@/api/auth/use-signin";
 import { useToast } from "@/hooks";
 import useAuth from "@/hooks/use-auth";
+import useLocalStorage from "@/hooks/use-local-storage";
 import { SignInFormSchema } from "@/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -17,6 +18,7 @@ import { Input } from "../ui/input";
 const SignInForm = () => {
   const { mutate: signIn } = useSignIn();
   const { isAuthenticated, onLogin } = useAuth();
+  const { setValue: setRedirectValue, storedValue: storedRedirectUrl } = useLocalStorage<string>("redirectUrl", "");
   const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof SignInFormSchema>>({
@@ -35,8 +37,9 @@ const SignInForm = () => {
       },
       {
         onSuccess: (res) => {
+          console.log(res);
           if (res.response) {
-            onLogin(res.response);
+            onLogin(res);
           } else {
             toast({
               variant: "destructive",
@@ -58,9 +61,9 @@ const SignInForm = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/");
+      router.push(storedRedirectUrl);
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, router, storedRedirectUrl]);
 
   return !isAuthenticated ? (
     <Form {...form}>

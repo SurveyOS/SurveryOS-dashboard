@@ -5,7 +5,10 @@ export interface SignInRequest {
   password: string;
 }
 
-export interface SignInResponse extends ServerResponseType<string | null> {}
+export interface SignIn {
+  token: string;
+  redirectUrl: string;
+}
 
 export interface SignUpRequest {
   name: string;
@@ -29,3 +32,4 @@ export interface SignUp {
 }
 
 export interface SignUpResponse extends ServerResponseType<SignUp | null> {}
+export interface SignInResponse extends ServerResponseType<SignIn | null> {}
