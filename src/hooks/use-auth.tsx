@@ -1,5 +1,5 @@
 import type { ServerResponseType } from "@/api";
-import { type SignIn } from "@/api/auth/types";
+import type { SignIn } from "@/api/auth/types";
 import { useRouter } from "next/navigation";
 import { useJwt } from "react-jwt";
 import useLocalStorage from "./use-local-storage";
