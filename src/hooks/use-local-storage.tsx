@@ -34,7 +34,7 @@ function useLocalStorage<T>(key: string, initialValue: T) {
     try {
       const valueToStore = value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);
-      if (typeof valueToStore === 'string') {
+      if (typeof valueToStore === "string") {
         localStorage.setItem(key, valueToStore);
       } else {
         localStorage.setItem(key, JSON.stringify(valueToStore));

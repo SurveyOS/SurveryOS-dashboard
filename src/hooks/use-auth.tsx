@@ -1,13 +1,13 @@
+import type { ServerResponseType } from "@/api";
+import { type SignIn } from "@/api/auth/types";
 import { useRouter } from "next/navigation";
 import { useJwt } from "react-jwt";
 import useLocalStorage from "./use-local-storage";
 import { useToast } from "./use-toast";
-import { SignIn, SignUp } from "@/api/auth/types";
-import { ServerResponseType } from "@/api";
 
 const useAuth = () => {
   const { setValue, storedValue } = useLocalStorage<string>("at", "");
-  const {setValue : setRedirectValue, storedValue:storedRedirectUrl} = useLocalStorage<string>("redirectUrl", "");
+  const { setValue: setRedirectValue } = useLocalStorage<string>("redirectUrl", "");
   const { toast } = useToast();
 
   const router = useRouter();

@@ -5,7 +5,7 @@ export interface SignInRequest {
   password: string;
 }
 
-export interface SignIn  {
+export interface SignIn {
   token: string;
   redirectUrl: string;
 }
