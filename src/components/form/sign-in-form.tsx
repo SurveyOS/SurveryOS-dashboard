@@ -13,10 +13,12 @@ import type * as z from "zod";
 import { Button } from "../ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
+import useLocalStorage from "@/hooks/use-local-storage";
 
 const SignInForm = () => {
   const { mutate: signIn } = useSignIn();
   const { isAuthenticated, onLogin } = useAuth();
+  const {setValue : setRedirectValue, storedValue:storedRedirectUrl} = useLocalStorage<string>("redirectUrl", "");
   const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof SignInFormSchema>>({
@@ -35,8 +37,9 @@ const SignInForm = () => {
       },
       {
         onSuccess: (res) => {
+          console.log(res);
           if (res.response) {
-            onLogin(res.response);
+            onLogin(res);
           } else {
             toast({
               variant: "destructive",
@@ -58,9 +61,9 @@ const SignInForm = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/");
+      router.push(storedRedirectUrl);
     }
-  }, [isAuthenticated, router]);
+  }, []);
 
   return !isAuthenticated ? (
     <Form {...form}>
