@@ -1,11 +1,15 @@
 "use client";
 
+import { useMe } from "@/api/user";
 import useAuth from "@/hooks/use-auth";
+import useLocalStorage from "@/hooks/use-local-storage";
 import useOutsideClick from "@/hooks/use-outside-click";
 import { HamburgerMenuIcon, PersonIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Combobox } from "./combo-box";
+import { TabNavigation } from "./tab-navigation";
 
 function Header() {
   const [showMenu, setShowMenu] = useState(false);
@@ -13,7 +17,26 @@ function Header() {
 
   const ref = useRef<HTMLDivElement>(null);
 
+  const { storedValue: companyIdValue } = useLocalStorage<string>("company_id", "");
+  const { storedValue: workspaceIdValue } = useLocalStorage<string>("workspace_id", "");
+
+  // const [workspaceValue, setWorkspaceValue] = useState<string>(workspaceIdValue);
+
   const { isAuthenticated, onLogut } = useAuth();
+
+  const { data: userData } = useMe({
+    enabled: isAuthenticated,
+  });
+
+  // const workspace = useMemo(() => {
+  //   return (
+  //     userData?.response?.workspaces?.map((w) => ({
+  //       label: w.workspace,
+  //       value: w._id,
+  //     })) || []
+  //   );
+  // }, [userData, companyIdValue, workspaceIdValue]);
+
   let body = null;
 
   useOutsideClick(ref, () => {
@@ -28,40 +51,58 @@ function Header() {
     setShowMenu((prev) => !prev);
   };
 
+  const tabs = useMemo(() => {
+    return [
+      {
+        name: "Surveys",
+        coverage: `/c/${companyIdValue}/w/${workspaceIdValue}/survey`,
+        href: `/c/${companyIdValue}/w/${workspaceIdValue}/survey/list`,
+      },
+      {
+        name: "Integrations",
+        coverage: `/c/${companyIdValue}/w/${workspaceIdValue}/integrations`,
+        href: `/c/${companyIdValue}/w/${workspaceIdValue}/integrations`,
+      },
+    ];
+  }, [companyIdValue, workspaceIdValue]);
+
   if (isAuthenticated) {
     body = (
-      <div ref={ref} className="flex flex-col drop-shadow-lg space-x-2 fixed bg-white rounded-lg p-4 right-2 top-16">
-        <div className="flex flex-col space-y-3 text-gray-600">
-          <button className="flex items-center" onClick={() => router.push("/dashboard")} type="button">
-            <p className="text-base">Organization Settings</p>
+      <div
+        ref={ref}
+        className="flex flex-col drop-shadow-lg space-x-2 fixed bg-white tra rounded-lg p-4 right-5 top-16"
+      >
+        <div className="flex flex-col space-y-3 transition-colors text-muted-foreground">
+          <button className="flex items-center" onClick={() => router.push("/")} type="button">
+            <p className="hover:text-primary text-sm">Organization Settings</p>
           </button>
-          <button className="flex items-center" onClick={() => router.push("/dashboard")} type="button">
-            <p className="text-base">Workspace Settings</p>
+          <button className="flex items-center" onClick={() => router.push("/")} type="button">
+            <p className="hover:text-primary text-sm">Workspace Settings</p>
           </button>
-          <button className="flex items-center" onClick={() => router.push("/dashboard")} type="button">
-            <p className="text-base">Surverys Settings</p>
+          <button className="flex items-center" onClick={() => router.push("/")} type="button">
+            <p className="hover:text-primary text-sm">Surverys Settings</p>
           </button>
-          <button className="flex items-center" onClick={() => router.push("/dashboard")} type="button">
-            <p className="text-base">Integrations</p>
+          <button className="flex items-center" onClick={() => router.push("/")} type="button">
+            <p className="hover:text-primary text-sm">Integrations</p>
           </button>
-          <button className="flex items-center" onClick={() => router.push("/dashboard")} type="button">
-            <p className="text-base">Invite Teammates</p>
+          <button className="flex items-center" onClick={() => router.push("/")} type="button">
+            <p className="hover:text-primary text-sm">Invite Teammates</p>
           </button>
           <button className="flex items-center" onClick={signOut} type="button">
-            <p className="text-base">Sign out</p>
+            <p className="hover:text-primary text-sm">Sign out</p>
           </button>
         </div>
       </div>
     );
   } else {
     body = (
-      <div className="flex flex-col drop-shadow-lg space-x-2 fixed bg-white mt-4 rounded p-2 w-28 right-2">
+      <div className="flex flex-col drop-shadow-lg space-x-2 fixed bg-white mt-4 rounded p-2 w-28 right-5">
         <div className="flex flex-col space-y-3">
           <button className="flex items-center" onClick={() => router.push("/sign-in")} type="button">
-            <p className="text-base">Sign in</p>
+            <p className="hover:text-primary text-sm">Sign in</p>
           </button>
           <button className="flex items-center" onClick={() => router.push("/sign-up")} type="button">
-            <p className="text-base">Sign up</p>
+            <p className="hover:text-primary text-sm">Sign up</p>
           </button>
         </div>
       </div>
@@ -73,17 +114,25 @@ function Header() {
       <div className="relative flex items-center h-10 cursor-pointer my-auto gap-6">
         <Image src={""} alt="Survey OS" width={100} height={50} onClick={() => router.push("/")} />
 
-        <div className="flex items-center text-gray-600 bg-neutral-100 shadow-sm rounded-md p-2">
-          <p className="text-base font-medium">Survey</p>
-        </div>
+        <TabNavigation tabs={tabs} />
       </div>
 
-      <div className="flex items-center space-x-4 justify-end text-gray-600">
+      <div className="flex items-center justify-end text-muted-foreground">
+        {/* {isAuthenticated && (
+          <Combobox
+            label={"Select workspace"}
+            searchPlaceholder={"Search workspace"}
+            emptyPlaceholder={"No workspace found"}
+            items={workspace}
+            value={workspaceValue}
+            setValue={setWorkspaceValue}
+          />
+        )} */}
         <div>
           <button
             onClick={toggleLoginOptions}
-            className={`flex items-center space-x-2 py-3 px-4 hover:bg-neutral-50 rounded-xl ${
-              showMenu ? "bg-neutral-50 shadow-md" : ""
+            className={`flex items-center space-x-2 py-3 px-4 hover:bg-muted rounded-xl ${
+              showMenu ? "bg-muted shadow-md" : ""
             }`}
             type="button"
           >

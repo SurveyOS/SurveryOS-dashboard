@@ -8,7 +8,6 @@ import { SignInFormSchema } from "@/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import type * as z from "zod";
 import { Button } from "../ui/button";
@@ -18,9 +17,7 @@ import { Input } from "../ui/input";
 const SignInForm = () => {
   const { mutate: signIn } = useSignIn();
   const { isAuthenticated, onLogin } = useAuth();
-  const { setValue: setRedirectValue, storedValue: storedRedirectUrl } = useLocalStorage<string>("redirectUrl", "");
   const { toast } = useToast();
-  const router = useRouter();
   const form = useForm<z.infer<typeof SignInFormSchema>>({
     resolver: zodResolver(SignInFormSchema),
     defaultValues: {
@@ -37,7 +34,6 @@ const SignInForm = () => {
       },
       {
         onSuccess: (res) => {
-          console.log(res);
           if (res.response) {
             onLogin(res);
           } else {
@@ -58,12 +54,6 @@ const SignInForm = () => {
       },
     );
   };
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      router.push(storedRedirectUrl);
-    }
-  }, [isAuthenticated, router, storedRedirectUrl]);
 
   return !isAuthenticated ? (
     <Form {...form}>
@@ -102,7 +92,7 @@ const SignInForm = () => {
       </form>
       <p className="text-center text-xs text-gray-600 mt-2">
         If you don&apos;t have an account, please&nbsp;
-        <Link className="text-indigo-500 hover:underline" href="/sign-up">
+        <Link className="text-primary hover:underline" href="/sign-up">
           Sign up
         </Link>
       </p>
