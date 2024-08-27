@@ -11,7 +11,7 @@ export const useRefreshToken = createQuery<Response, Variables, ServerErrorType>
   staleTime: 1000 * 60 * 60, // 60 minutes in ms
   refetchInterval: (data) => !!data && 1000 * 60 * 60,
   fetcher: async () => {
-    return client()({
+    return (await client())({
       url: "/users/refresh-token",
       method: "GET",
     }).then((response) => {
