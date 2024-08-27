@@ -2,12 +2,11 @@
 
 import { useMe } from "@/api/user";
 import useAuth from "@/hooks/use-auth";
-import useLocalStorage from "@/hooks/use-local-storage";
 import useOutsideClick from "@/hooks/use-outside-click";
 import { HamburgerMenuIcon, PersonIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Combobox } from "./combo-box";
 import { TabNavigation } from "./tab-navigation";
 
@@ -17,25 +16,26 @@ function Header() {
 
   const ref = useRef<HTMLDivElement>(null);
 
-  const { storedValue: companyIdValue } = useLocalStorage<string>("company_id", "");
-  const { storedValue: workspaceIdValue } = useLocalStorage<string>("workspace_id", "");
+  const { isAuthenticated, onLogut, session } = useAuth();
 
-  // const [workspaceValue, setWorkspaceValue] = useState<string>(workspaceIdValue);
-
-  const { isAuthenticated, onLogut } = useAuth();
-
-  const { data: userData } = useMe({
+  const { data: userData, isLoading } = useMe({
     enabled: isAuthenticated,
   });
 
-  // const workspace = useMemo(() => {
-  //   return (
-  //     userData?.response?.workspaces?.map((w) => ({
-  //       label: w.workspace,
-  //       value: w._id,
-  //     })) || []
-  //   );
-  // }, [userData, companyIdValue, workspaceIdValue]);
+  const companyIdValue = useMemo(() => {
+    return userData?.response?.company?._id;
+  }, [userData]);
+
+  const [workspaceIdValue, setWorkspaceIdValue] = useState<string>(session?.user.workspaceId || "");
+
+  const workspaces = useMemo(() => {
+    return (
+      userData?.response?.workspaces?.map((w) => ({
+        label: w.workspace.name,
+        value: w.workspace._id,
+      })) || []
+    );
+  }, [userData]);
 
   let body = null;
 
@@ -114,20 +114,20 @@ function Header() {
       <div className="relative flex items-center h-10 cursor-pointer my-auto gap-6">
         <Image src={""} alt="Survey OS" width={100} height={50} onClick={() => router.push("/")} />
 
-        <TabNavigation tabs={tabs} />
+        {!isLoading && isAuthenticated && <TabNavigation tabs={tabs} />}
       </div>
 
-      <div className="flex items-center justify-end text-muted-foreground">
-        {/* {isAuthenticated && (
+      <div className="flex items-center justify-end text-muted-foreground gap-4">
+        {isAuthenticated && !isLoading && (
           <Combobox
             label={"Select workspace"}
             searchPlaceholder={"Search workspace"}
             emptyPlaceholder={"No workspace found"}
-            items={workspace}
-            value={workspaceValue}
-            setValue={setWorkspaceValue}
+            items={workspaces}
+            value={workspaceIdValue}
+            setValue={setWorkspaceIdValue}
           />
-        )} */}
+        )}
         <div>
           <button
             onClick={toggleLoginOptions}

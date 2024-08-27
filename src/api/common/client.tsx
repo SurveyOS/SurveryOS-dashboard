@@ -1,14 +1,16 @@
-import axios from "axios";
-
 import { config } from "@/config/config";
+import axios from "axios";
+import { getSession } from "next-auth/react";
 
-const headers = {
-  Authorization: `Bearer ${localStorage.getItem("at")}`,
-};
+export const client = async () => {
+  const session = await getSession();
 
-export const client = () => {
   return axios.create({
     baseURL: `${config.CORE_NETWORK_URL}/api/v1`,
-    headers: localStorage.getItem("at") ? headers : {},
+    headers: {
+      Authorization: `Bearer ${session?.user.accessToken}`,
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
   });
 };

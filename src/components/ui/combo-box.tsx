@@ -23,8 +23,9 @@ export function Combobox({ label, searchPlaceholder, emptyPlaceholder, items, va
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
+        {/* trim the ... */}
         <Button variant="outline" role="combobox" aria-expanded={open} className="w-[200px] justify-between">
-          {value ? items.find((item) => item.value === value)?.label : label}
+          <p className="truncate">{value ? items.find((item) => item.value === value)?.label : label}</p>
           <ChevronDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -44,7 +45,7 @@ export function Combobox({ label, searchPlaceholder, emptyPlaceholder, items, va
                   }}
                 >
                   <CheckIcon className={cn("mr-2 h-4 w-4", value === item.value ? "opacity-100" : "opacity-0")} />
-                  {item.label}
+                  <p className="truncate">{item.label}</p>
                 </CommandItem>
               ))}
             </CommandGroup>

@@ -7,7 +7,8 @@ export interface SignInRequest {
 
 export interface SignIn {
   token: string;
-  redirectUrl: string;
+  companyId: string;
+  workspaceId: string;
 }
 
 export interface SignUpRequest {
