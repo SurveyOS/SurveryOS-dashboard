@@ -9,7 +9,7 @@ type Variables = SignInRequest;
 
 export const useSignIn = createMutation<Response, Variables, ServerErrorType>({
   mutationFn: async (variables) => {
-    return client()({
+    return (await client())({
       url: "/users/login",
       method: "POST",
       data: variables,

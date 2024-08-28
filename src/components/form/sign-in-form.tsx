@@ -1,13 +1,12 @@
 "use client";
 
-import { useSignIn } from "@/api/auth/use-signin";
 import { useToast } from "@/hooks";
 import useAuth from "@/hooks/use-auth";
-import useLocalStorage from "@/hooks/use-local-storage";
 import { SignInFormSchema } from "@/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import type * as z from "zod";
 import { Button } from "../ui/button";
@@ -15,9 +14,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "../ui/input";
 
 const SignInForm = () => {
-  const { mutate: signIn } = useSignIn();
   const { isAuthenticated, onLogin } = useAuth();
   const { toast } = useToast();
+  const router = useRouter();
   const form = useForm<z.infer<typeof SignInFormSchema>>({
     resolver: zodResolver(SignInFormSchema),
     defaultValues: {
@@ -26,34 +25,29 @@ const SignInForm = () => {
     },
   });
 
+  const params = useSearchParams();
+
+  const error = params?.get("error");
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        variant: "default",
+        title: "Sign in failed",
+        description: error,
+      });
+    }
+  }, [error, toast]);
+
   const onSubmit = (values: z.infer<typeof SignInFormSchema>) => {
-    signIn(
-      {
-        email: values.email,
-        password: values.password,
-      },
-      {
-        onSuccess: (res) => {
-          if (res.response) {
-            onLogin(res);
-          } else {
-            toast({
-              variant: "destructive",
-              title: "Error",
-              description: "Something went wrong",
-            });
-          }
-        },
-        onError: (error) => {
-          toast({
-            variant: "destructive",
-            title: "Error",
-            description: error.response?.data.message || "Something went wrong",
-          });
-        },
-      },
-    );
+    onLogin(values);
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/");
+    }
+  }, [isAuthenticated, router]);
 
   return !isAuthenticated ? (
     <Form {...form}>

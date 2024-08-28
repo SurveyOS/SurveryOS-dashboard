@@ -10,7 +10,7 @@ type Variables = void;
 export const useMe = createQuery<Response, Variables, ServerErrorType>({
   queryKey: ["me"],
   fetcher: async () => {
-    return client()({
+    return (await client())({
       url: "/users/me",
       method: "GET",
     }).then((response) => {
