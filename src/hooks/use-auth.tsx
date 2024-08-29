@@ -9,6 +9,7 @@ const useAuth = () => {
   const router = useRouter();
   const { status, update, data } = useSession();
   const isAuthenticated = status === "authenticated";
+  const isLoading = status === "loading";
 
   const onLogin = async (credentials: SignInRequest) => {
     if (!credentials.email || !credentials.password) return;
@@ -63,6 +64,7 @@ const useAuth = () => {
 
   return {
     session: data,
+    isLoading,
     isAuthenticated,
     onLogin,
     onSignup,

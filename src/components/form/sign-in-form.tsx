@@ -14,7 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "../ui/input";
 
 const SignInForm = () => {
-  const { isAuthenticated, onLogin } = useAuth();
+  const { isLoading, isAuthenticated, onLogin } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof SignInFormSchema>>({
@@ -44,12 +44,14 @@ const SignInForm = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
-      router.push("/");
+    if (!isLoading) {
+      if (isAuthenticated) {
+        router.push("/");
+      }
     }
-  }, [isAuthenticated, router]);
+  }, [isLoading, isAuthenticated, router]);
 
-  return !isAuthenticated ? (
+  return !isAuthenticated && !isLoading ? (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
         <div className="space-y-2">
