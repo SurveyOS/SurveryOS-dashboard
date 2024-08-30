@@ -9,20 +9,22 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Home() {
-  const { isAuthenticated, onRefreshToken, session } = useAuth();
+  const { isLoading, isAuthenticated, onRefreshToken, session } = useAuth();
   const { data: new_at } = useRefreshToken();
 
   const router = useRouter();
 
   useEffect(() => {
-    if (isAuthenticated) {
-      if (session?.user.companyId && session.user.workspaceId) {
-        router.push(`/c/${session?.user.companyId}/w/${session.user.workspaceId}/survey/list`);
+    if (!isLoading) {
+      if (isAuthenticated) {
+        if (session?.user.companyId && session.user.workspaceId) {
+          router.push(`/c/${session?.user.companyId}/w/${session.user.workspaceId}/survey/list`);
+        }
+      } else {
+        router.push("/sign-in");
       }
-    } else {
-      router.push("/sign-in");
     }
-  }, [isAuthenticated, session, router]);
+  }, [isLoading, isAuthenticated, session, router]);
 
   useEffect(() => {
     if (new_at) {

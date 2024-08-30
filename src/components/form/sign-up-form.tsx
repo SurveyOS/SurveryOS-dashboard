@@ -16,7 +16,7 @@ import { Input } from "../ui/input";
 
 const SignUpForm = () => {
   const { mutate: signUp } = useSignUp();
-  const { isAuthenticated, onSignup } = useAuth();
+  const { isLoading, isAuthenticated, onSignup } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof SignUpFormSchema>>({
@@ -50,10 +50,12 @@ const SignUpForm = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
-      router.push("/");
+    if (!isLoading) {
+      if (isAuthenticated) {
+        router.push("/");
+      }
     }
-  }, [isAuthenticated, router]);
+  }, [isLoading, isAuthenticated, router]);
 
   return !isAuthenticated ? (
     <Form {...form}>
