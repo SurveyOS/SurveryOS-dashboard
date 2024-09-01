@@ -1,6 +1,9 @@
 "use client";
 
 import { useSignUp } from "@/api/auth";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks";
 import useAuth from "@/hooks/use-auth";
 import { SignUpFormSchema } from "@/validations/auth";
@@ -10,9 +13,6 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import type * as z from "zod";
-import { Button } from "../ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
-import { Input } from "../ui/input";
 
 const SignUpForm = () => {
   const { mutate: signUp } = useSignUp();

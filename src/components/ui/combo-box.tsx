@@ -23,7 +23,6 @@ export function Combobox({ label, searchPlaceholder, emptyPlaceholder, items, va
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        {/* trim the ... */}
         <Button variant="outline" role="combobox" aria-expanded={open} className="w-[200px] justify-between">
           <p className="truncate">{value ? items.find((item) => item.value === value)?.label : label}</p>
           <ChevronDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />

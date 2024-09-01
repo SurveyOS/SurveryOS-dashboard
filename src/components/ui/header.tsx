@@ -5,14 +5,16 @@ import useAuth from "@/hooks/use-auth";
 import useOutsideClick from "@/hooks/use-outside-click";
 import { HamburgerMenuIcon, PersonIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useMemo, useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Combobox } from "./combo-box";
 import { TabNavigation } from "./tab-navigation";
 
 function Header() {
   const [showMenu, setShowMenu] = useState(false);
+  const [showWorkspace, setShowWorkspace] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -36,6 +38,10 @@ function Header() {
       })) || []
     );
   }, [userData]);
+
+  useEffect(() => {
+    setShowWorkspace(!pathname?.includes("settings"));
+  }, [pathname]);
 
   let body = null;
 
@@ -73,11 +79,12 @@ function Header() {
         className="flex flex-col drop-shadow-lg space-x-2 fixed bg-white tra rounded-lg p-4 right-5 top-16"
       >
         <div className="flex flex-col space-y-3 transition-colors text-muted-foreground">
-          <button className="flex items-center" onClick={() => router.push("/")} type="button">
-            <p className="hover:text-primary text-sm">Organization Settings</p>
-          </button>
-          <button className="flex items-center" onClick={() => router.push("/")} type="button">
-            <p className="hover:text-primary text-sm">Workspace Settings</p>
+          <button
+            className="flex items-center"
+            onClick={() => router.push(`/c/${companyIdValue}/settings/general`)}
+            type="button"
+          >
+            <p className="hover:text-primary text-sm">Company Settings</p>
           </button>
           <button className="flex items-center" onClick={() => router.push("/")} type="button">
             <p className="hover:text-primary text-sm">Surverys Settings</p>
@@ -118,7 +125,7 @@ function Header() {
       </div>
 
       <div className="flex items-center justify-end text-muted-foreground gap-4">
-        {isAuthenticated && !isLoading && (
+        {showWorkspace && isAuthenticated && !isLoading && (
           <Combobox
             label={"Select workspace"}
             searchPlaceholder={"Search workspace"}
