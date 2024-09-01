@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import type React from "react";
 import { Label } from "@/components/ui/label";
+import type React from "react";
 import ChangeCompanyName from "./modal/change-company-name";
 
 const GeneralSettings: React.FC = () => {

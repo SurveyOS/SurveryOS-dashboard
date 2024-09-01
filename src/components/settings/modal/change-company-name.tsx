@@ -26,11 +26,7 @@ const ChangeCompanyName: React.FC = () => {
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Input
-              id="name"
-              placeholder="Company name"
-              className="col-span-4"
-            />
+            <Input id="name" placeholder="Company name" className="col-span-4" />
           </div>
         </div>
         <DialogFooter>
