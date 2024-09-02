@@ -10,7 +10,7 @@ type Response = SurveyResponse;
 
 export const useCreateSurvey = createMutation<Response, Variables, ServerErrorType>({
   mutationFn: async (variables) => {
-    return client()({
+    return (await client())({
       url: "/survey/create",
       method: "POST",
       data: variables,

@@ -15,7 +15,7 @@ const page = (props: Props) => {
    * 2. redirect user to /survey/:surveyId/create/question
    */
   // get workspaveId from the URL
-  const { workspaceId, companyId } = useParams();
+  const { workspaceId, companyId } = useParams() as { workspaceId: string, companyId: string };
   const workspaceIdString = workspaceId.toString();
   const {mutate: createSurvey} = useCreateSurvey();
   const router = useRouter();
