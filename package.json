@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "preinstall": "npx only-allow yarn",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -44,7 +43,8 @@
     "next-auth": "^4.1.4",
     "react": "^18",
     "react-dom": "^18",
-    "react-hook-form": "^7.52.2",
+    "react-hook-form": "^7.53.0",
+    "react-jwt": "^1.2.2",
     "react-query-kit": "^3.3.0",
     "react-redux": "^9.1.2",
     "tailwind-merge": "^2.5.2",
