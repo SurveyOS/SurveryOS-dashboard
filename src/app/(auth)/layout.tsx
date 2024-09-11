@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { type FC, type ReactNode, useEffect } from "react";
+import type { FC, ReactNode } from "react";
 
 interface AuthLayoutProps {
   children: ReactNode;
