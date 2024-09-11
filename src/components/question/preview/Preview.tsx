@@ -1,11 +1,9 @@
-import React from 'react'
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 const Preview = (props: Props) => {
-  return (
-    <div>Preview</div>
-  )
-}
+  return <div>Preview</div>;
+};
 
-export default Preview
+export default Preview;

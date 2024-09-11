@@ -1,13 +1,13 @@
-import { Input } from "@/components/ui/input"
-import React from "react"
-import { UseFormReturn } from "react-hook-form"
-import { QuestionType } from "../type"
+import { Input } from "@/components/ui/input";
+import React from "react";
+import type { UseFormReturn } from "react-hook-form";
+import type { QuestionType } from "../type";
 
 type Props = {
-  type: QuestionType
-  methods: UseFormReturn
-  index: number
-}
+  type: QuestionType;
+  methods: UseFormReturn;
+  index: number;
+};
 /**
  *
  * @param props
@@ -15,13 +15,8 @@ type Props = {
  */
 
 const SWelcome = ({ type, methods, index }: Props) => {
-  const { register } = methods
-  return (
-    <Input
-      {...register(`questions.${index}.label`)}
-      placeholder="Enter your welcome message"
-    />
-  )
-}
+  const { register } = methods;
+  return <Input {...register(`questions.${index}.label`)} placeholder="Enter your welcome message" />;
+};
 
-export default SWelcome
+export default SWelcome;

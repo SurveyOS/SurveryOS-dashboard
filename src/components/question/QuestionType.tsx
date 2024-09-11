@@ -1,16 +1,10 @@
-import React from "react"
+import React from "react";
 
 type Props = {
-  handleAddQuestion: (type: string) => void
-}
+  handleAddQuestion: (type: string) => void;
+};
 
-const Types = [
-  "TEXT",
-  "WELCOME",
-  "THANKYOU",
-  "MULTIPLE_CHOICE",
-  "SINGLE_SELECT",
-]
+const Types = ["TEXT", "WELCOME", "THANKYOU", "MULTIPLE_CHOICE", "SINGLE_SELECT"];
 
 const QuestionType = ({ handleAddQuestion }: Props) => {
   return (
@@ -18,13 +12,13 @@ const QuestionType = ({ handleAddQuestion }: Props) => {
       Question Type
       {Types.map((type) => {
         return (
-          <div onClick={() => handleAddQuestion(type)} key={type}>
+          <div onClick={() => handleAddQuestion(type)} key={type} onKeyPress={() => handleAddQuestion(type)}>
             {type}
           </div>
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};
 
-export default QuestionType
+export default QuestionType;

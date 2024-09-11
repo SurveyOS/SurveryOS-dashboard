@@ -1,18 +1,18 @@
-"use client"
-import React from "react"
-import { useRouter, useParams } from "next/navigation"
-import Question from "@/components/question/Question"
-import { FormProvider, useFieldArray, useForm } from "react-hook-form"
-import { Button } from "@/components/ui/button"
-import QuestionType from "@/components/question/QuestionType"
-import { generateKeySync } from "crypto"
-import { generateId } from "@/lib/utils"
-import Preview from "@/components/question/preview/Preview"
+"use client";
 
-type Props = {}
+import Question from "@/components/question/Question";
+import QuestionType from "@/components/question/QuestionType";
+import Preview from "@/components/question/preview/Preview";
+import { Button } from "@/components/ui/button";
+import { generateId } from "@/lib/utils";
+import { useParams, useRouter } from "next/navigation";
+import React from "react";
+import { FormProvider, useFieldArray, useForm } from "react-hook-form";
+
+type Props = {};
 
 const page = (props: Props) => {
-  const { workspaceId, companyId, surveyId } = useParams()
+  const { workspaceId, companyId, surveyId } = useParams();
   // const { control, register, handleSubmit } = useForm({
   //   defaultValues: {
   //     questions: [
@@ -27,7 +27,7 @@ const page = (props: Props) => {
   //     ],
   //   },
   // })
-  const [showQuestionType, setShowQuestionType] = React.useState(false)
+  const [showQuestionType, setShowQuestionType] = React.useState(false);
 
   const methods = useForm({
     defaultValues: {
@@ -43,15 +43,15 @@ const page = (props: Props) => {
         },
       ],
     },
-  })
+  });
   const onSubmit = (data: any) => {
-    console.log(data)
-  }
+    console.log(data);
+  };
 
   const fieldsMethod = useFieldArray({
     control: methods.control,
     name: "questions",
-  })
+  });
 
   const handleAddQuestion = (type: string) => {
     fieldsMethod.append({
@@ -62,9 +62,9 @@ const page = (props: Props) => {
       },
       type: type,
       questionId: generateId(10),
-    })
-    setShowQuestionType(false)
-  }
+    });
+    setShowQuestionType(false);
+  };
 
   return (
     <div
@@ -79,34 +79,23 @@ const page = (props: Props) => {
           {fieldsMethod.fields.map((field, index) => {
             return (
               <>
-                <Question
-                  key={field.id}
-                  index={index}
-                  fieldsMethod={fieldsMethod}
-                  methods={methods}
-                />
-                <div className="mt-2"/>
+                <Question key={field.id} index={index} fieldsMethod={fieldsMethod} methods={methods} />
+                <div key={field.id} className="mt-2" />
               </>
-            )
+            );
           })}
           <div style={{ marginTop: "8px", display: "flex", gap: "8px" }}>
-            <Button
-              variant="secondary"
-              onClick={() => setShowQuestionType(true)}
-              type="button"
-            >
+            <Button variant="secondary" onClick={() => setShowQuestionType(true)} type="button">
               Add Question
             </Button>
             <Button type="submit">Submit</Button>
-            {showQuestionType && (
-              <QuestionType handleAddQuestion={handleAddQuestion} />
-            )}
+            {showQuestionType && <QuestionType handleAddQuestion={handleAddQuestion} />}
           </div>
         </form>
       </FormProvider>
       <Preview />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

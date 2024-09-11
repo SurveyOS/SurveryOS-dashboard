@@ -1,12 +1,10 @@
-import React from 'react'
-import { QuestionProp } from '../type'
+import React from "react";
+import type { QuestionProp } from "../type";
 
-type Props = QuestionProp
+type Props = QuestionProp;
 
-const CSatRating = ({methods, type, index}: Props) => {
-  return (
-    <div>CSatRating</div>
-  )
-}
+const CSatRating = ({ methods, type, index }: Props) => {
+  return <div>CSatRating</div>;
+};
 
-export default CSatRating
+export default CSatRating;

@@ -1,17 +1,15 @@
-import React from 'react'
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 /**
- * 
- * @param props 
+ *
+ * @param props
  * @returns this form is responsible for rendering the contact form
  */
 
 const SContactForm = (props: Props) => {
-  return (
-    <div>SContactForm</div>
-  )
-}
+  return <div>SContactForm</div>;
+};
 
-export default SContactForm
+export default SContactForm;

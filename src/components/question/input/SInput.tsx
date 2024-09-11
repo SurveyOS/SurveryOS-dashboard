@@ -1,13 +1,13 @@
-import React from "react"
-import { QuestionType } from "../type"
-import { Input } from "@/components/ui/input"
-import { UseFormReturn } from "react-hook-form"
+import { Input } from "@/components/ui/input";
+import React from "react";
+import type { UseFormReturn } from "react-hook-form";
+import { QuestionType } from "../type";
 
 type Props = {
-  type: QuestionType
-  methods: UseFormReturn
-  index: number
-}
+  type: QuestionType;
+  methods: UseFormReturn;
+  index: number;
+};
 
 /**
  *
@@ -16,7 +16,7 @@ type Props = {
  * it can either be TEXT or NUMBER
  */
 const SInput = ({ type, methods, index }: Props) => {
-  const { register } = methods
+  const { register } = methods;
   return (
     <div>
       <Input
@@ -25,7 +25,7 @@ const SInput = ({ type, methods, index }: Props) => {
         placeholder="Enter your question"
       />
     </div>
-  )
-}
+  );
+};
 
-export default SInput
+export default SInput;

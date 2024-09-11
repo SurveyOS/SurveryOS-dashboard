@@ -1,13 +1,13 @@
-import React from "react"
-import { QuestionType } from "../type"
-import { useFieldArray, UseFormReturn } from "react-hook-form"
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
+import React from "react";
+import { type UseFormReturn, useFieldArray } from "react-hook-form";
+import type { QuestionType } from "../type";
 
 type Props = {
-  type: QuestionType
-  methods: UseFormReturn
-  index: number
-}
+  type: QuestionType;
+  methods: UseFormReturn;
+  index: number;
+};
 /**
  *
  * @param props
@@ -16,7 +16,7 @@ type Props = {
  */
 
 const SDropdown = ({ type, methods, index }: Props) => {
-  const { control } = methods
+  const { control } = methods;
   const {
     fields: options,
     append,
@@ -24,20 +24,15 @@ const SDropdown = ({ type, methods, index }: Props) => {
   } = useFieldArray({
     control,
     name: `questions.${index}.options`,
-  })
+  });
   return (
     <>
-      <Input
-        {...methods.register(`questions.${index}.label`)}
-        placeholder="Enter your question"
-      />
+      <Input {...methods.register(`questions.${index}.label`)} placeholder="Enter your question" />
       <div>
         {options.map((option, optionIndex) => (
           <div key={option.id}>
             <Input
-              {...methods.register(
-                `questions.${index}.options.${optionIndex}.label`
-              )}
+              {...methods.register(`questions.${index}.options.${optionIndex}.label`)}
               placeholder="Enter option"
             />
             <button type="button" onClick={() => remove(optionIndex)}>
@@ -50,7 +45,7 @@ const SDropdown = ({ type, methods, index }: Props) => {
         </button>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default SDropdown
+export default SDropdown;
